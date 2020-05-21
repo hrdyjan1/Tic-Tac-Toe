@@ -1,3 +1,10 @@
+// type player = 'x' | 'o'
+
+// interface Square {
+//     id: number;
+//     player: player;
+// }
+
 export const checkIfAllSamePlayer = ({ values, player }) => values.every(
   (v) => v.player === player,
 );

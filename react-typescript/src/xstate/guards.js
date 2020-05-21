@@ -1,11 +1,7 @@
 // GUARDS === CONDITIONS => target / action
 
 import { toggleTurn } from './actions';
-import {
-  checkVerticalWin,
-  checkHorizontalWin,
-  checkDiagonalWin,
-} from './helpers/guards';
+import { checkVerticalWin, checkHorizontalWin, checkDiagonalWin } from './helpers/guards';
 
 export const checkWin = ({ values, countToWin, playerOnTurn }) => {
   const playerOfpreviousMove = toggleTurn({ playerOnTurn });
@@ -19,7 +15,7 @@ export const checkWin = ({ values, countToWin, playerOnTurn }) => {
     return true;
   }
   return false;
-}; // TODO
+};
 
 export const checkDraw = ({ maxMoves, moveNumber }) => maxMoves === moveNumber;
 
