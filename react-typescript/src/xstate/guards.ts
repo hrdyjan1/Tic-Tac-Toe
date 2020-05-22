@@ -3,9 +3,8 @@
 import { toggleTurn } from './actions';
 import { checkVerticalWin, checkDiagonalWin, checkHorizontalWin } from './helpers/guards';
 import { Context } from './types';
-// import { checkVerticalWin, checkHorizontalWin, checkDiagonalWin } from './helpers/guards.ts';
 
-export const checkWin = (context: Context) => {
+export const checkWin = (context: Context): boolean => {
   const playerOfpreviousMove = toggleTurn(context);
   const data = { ...context, player: playerOfpreviousMove };
 
@@ -19,6 +18,6 @@ export const checkWin = (context: Context) => {
   return false;
 };
 
-export const checkDraw = ({ maxMoves, moveNumber }: Context) => maxMoves === moveNumber;
+export const checkDraw = ({ maxMoves, moveNumber }: Context): boolean => maxMoves === moveNumber;
 
 export default { checkWin, checkDraw };

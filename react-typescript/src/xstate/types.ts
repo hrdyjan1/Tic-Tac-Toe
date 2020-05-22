@@ -1,10 +1,12 @@
-export type Player = 'x' | 'o' | ''
+export type EventTypes = 'RESTART' | 'GAME_START' | 'GAME_OVER';
+export type EventTypeMove = 'MOVE'
+export type Player = 'x' | 'o' | '';
+export type Move = { id: number };
 
 export type Result = {
-    status: String,
-    winner?: Player
-
-}
+  status: String;
+  winner?: Player;
+};
 export type Square = {
   player: Player;
   id: number;
@@ -30,8 +32,6 @@ export type Context = {
   maxMoves: number;
 };
 
-export type Event =
-| { type: 'RESTART' }
-| { type: 'GAME_START'}
-| { type: 'GAME_OVER'}
-| { type: 'MOVE'; move: { id: number}}
+
+export type EventMove = { type: EventTypeMove; move: Move };
+export type Event = { type: EventTypes } | EventMove;

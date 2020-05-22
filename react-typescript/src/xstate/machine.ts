@@ -1,9 +1,7 @@
 import { Machine, assign } from 'xstate';
 
 import { GAME_OFF, GAME_ON } from './states';
-import {
-  RESTART, GAME_OVER, GAME_START, MOVE,
-} from './events';
+import { RESTART, GAME_OVER, GAME_START, MOVE } from './events';
 import {
   preventCorrectMoves,
   fillDefaultValues,
@@ -15,7 +13,7 @@ import {
   toggleTurn,
 } from './actions';
 import { checkWin, checkDraw } from './guards';
-import { Context } from './types';
+import { Context, Event, Move, EventMove } from './types';
 
 // Objects
 const initialContext: Context = {
@@ -28,13 +26,13 @@ const initialContext: Context = {
 };
 
 // Machine
-const ticTacToeMachine = Machine<Context>(
+const ticTacToeMachine = Machine<Context, Event>(
   {
     id: 'TicTacToeMachineId',
     initial: GAME_ON,
     context: {
       ...initialContext,
-    //   maxMoves: 16, // Can be overwrite
+      //   maxMoves: 16, // Can be overwrite
     },
     states: {
       [GAME_ON]: {
@@ -59,7 +57,7 @@ const ticTacToeMachine = Machine<Context>(
             },
           ],
           [MOVE]: {
-            actions: assign<Context, Event>({
+            actions: assign<Context, EventMove>({
               values: addMove,
               playerOnTurn: toggleTurn,
               moveNumber: increase,
@@ -88,8 +86,8 @@ const ticTacToeMachine = Machine<Context>(
     },
   },
   {
-    guards: [checkWin, checkDraw],
-  },
+    guards: { checkWin, checkDraw },
+  }
 );
 
 export default ticTacToeMachine;
