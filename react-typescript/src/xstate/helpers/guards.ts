@@ -1,17 +1,12 @@
-import { Context, ContextRound, ContextRoundLite } from '../types';
+import { ContextRound, ContextRoundLite } from '../types';
 
-export const checkIfAllSamePlayer = ({ values, player }: ContextRoundLite): boolean => (
-  values.every((v) => v.player === player)
-);
+export const checkIfAllSamePlayer = ({ values, player }: ContextRoundLite): boolean =>
+  values.every((v) => v.player === player);
 
-export const checkVerticalWin = ({
-  values,
-  countToWin,
-  player,
-}: ContextRound): boolean => {
+export const checkVerticalWin = ({ values, countToWin, player }: ContextRound): boolean => {
   for (let pointer = 0; countToWin + pointer <= values.length; pointer += countToWin) {
     const valuesToCheck = values.filter(
-      (_, index) => pointer <= index && index < countToWin + pointer,
+      (_, index) => pointer <= index && index < countToWin + pointer
     );
 
     const isThereWinner = checkIfAllSamePlayer({
@@ -26,11 +21,7 @@ export const checkVerticalWin = ({
   return false;
 };
 
-export const checkHorizontalWin = ({
-  values,
-  countToWin,
-  playerOnTurn: player,
-}: Context): boolean => {
+export const checkHorizontalWin = ({ values, countToWin, player }: ContextRound): boolean => {
   for (let pointer = 0; pointer < countToWin; pointer += 1) {
     const valuesToCheck = values.filter((_, index) => (index + pointer) % countToWin === 0);
 
@@ -46,11 +37,7 @@ export const checkHorizontalWin = ({
   return false;
 };
 
-export const checkDiagonalWin = ({
-  values,
-  countToWin,
-  playerOnTurn: player,
-}: Context): boolean => {
+export const checkDiagonalWin = ({ values, countToWin, player }: ContextRound): boolean => {
   const toBottomRightValues = values.filter((_, index) => index % (countToWin + 1) === 0);
 
   const toBottomLeftValues = values.filter((_, index) => {
@@ -58,11 +45,12 @@ export const checkDiagonalWin = ({
     return (index + row) % countToWin === 0;
   });
 
-  const isThereWinner = checkIfAllSamePlayer({
-    values: toBottomRightValues,
-    player,
-  })
-    || checkIfAllSamePlayer({
+  const isThereWinner =
+    checkIfAllSamePlayer({
+      values: toBottomRightValues,
+      player,
+    }) ||
+    checkIfAllSamePlayer({
       values: toBottomLeftValues,
       player,
     });

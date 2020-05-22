@@ -13,7 +13,7 @@ import {
   toggleTurn,
 } from './actions';
 import { checkWin, checkDraw } from './guards';
-import { Context, Event, Move, EventMove } from './types';
+import { Context, Event, EventMove } from './types';
 
 // Objects
 const initialContext: Context = {

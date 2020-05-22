@@ -2,11 +2,11 @@
 
 import { toggleTurn } from './actions';
 import { checkVerticalWin, checkDiagonalWin, checkHorizontalWin } from './helpers/guards';
-import { Context } from './types';
+import { Context, ContextRound } from './types';
 
 export const checkWin = (context: Context): boolean => {
-  const playerOfpreviousMove = toggleTurn(context);
-  const data = { ...context, player: playerOfpreviousMove };
+  const playerPreviousMove = toggleTurn(context);
+  const data: ContextRound = { ...context, player: playerPreviousMove };
 
   const isVerticalWin = checkVerticalWin(data);
   const isDiagonalWin = checkDiagonalWin(data);
