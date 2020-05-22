@@ -4,15 +4,19 @@ const checkIsInteger = (number: number) => Number.isInteger(number);
 
 const doNothing = () => {};
 
-const enhanceItemArray = (array: Array<object>, index: number, value: object) =>
-  Array.from(array, (val, id) => (id === index ? { ...val, ...value } : val));
+const enhanceItemArray = (array: Array<any>, index: number, value: object) => (
+  Array.from(array, (val, id) => (id === index ? { ...val, ...value } : val))
+);
 
 function shrinkArray(originalArray: Array<any>, length: number) {
   return originalArray.reduce((newArray, current, index) => {
+    const tempArray = newArray;
     const pointer = Math.floor(index / length);
-    newArray[pointer] = newArray[pointer] ? [...newArray[pointer], current] : [current];
-    return newArray;
+    tempArray[pointer] = tempArray[pointer] ? [...tempArray[pointer], current] : [current];
+    return tempArray;
   }, []);
 }
 
-export { getRootSquare, checkIsInteger, shrinkArray, doNothing, enhanceItemArray };
+export {
+  getRootSquare, checkIsInteger, shrinkArray, doNothing, enhanceItemArray,
+};

@@ -15,19 +15,20 @@ import {
   toggleTurn,
 } from './actions';
 import { checkWin, checkDraw } from './guards';
+import { Context } from './types';
 
 // Objects
-const initialContext = {
+const initialContext: Context = {
   moveNumber: 0,
   values: [],
-  result: null,
+  result: { status: '' },
   playerOnTurn: 'x',
+  maxMoves: 9,
+  countToWin: 3,
 };
 
 // Machine
-// Only two players / 'x' or 'o'
-// Indexing from 0
-const ticTacToeMachine = Machine(
+const ticTacToeMachine = Machine<Context>(
   {
     id: 'TicTacToeMachineId',
     initial: GAME_ON,
@@ -38,8 +39,8 @@ const ticTacToeMachine = Machine(
     states: {
       [GAME_ON]: {
         entry: [
-          assign({ maxMoves: preventCorrectMoves }),
-          assign({ values: fillDefaultValues, countToWin: getCountToWin }),
+          assign<Context>({ maxMoves: preventCorrectMoves }),
+          assign<Context>({ values: fillDefaultValues, countToWin: getCountToWin }),
         ],
         on: {
           // Check END game
@@ -48,17 +49,17 @@ const ticTacToeMachine = Machine(
             {
               target: GAME_OFF,
               cond: checkWin, // Check only player of previous move
-              actions: assign({ result: getWinnerResult }),
+              actions: assign<Context>({ result: getWinnerResult }),
             },
             // Check DRAW
             {
               target: GAME_OFF,
               cond: checkDraw,
-              actions: assign({ result: getDrawResult }),
+              actions: assign<Context>({ result: getDrawResult }),
             },
           ],
           [MOVE]: {
-            actions: assign({
+            actions: assign<Context, Event>({
               values: addMove,
               playerOnTurn: toggleTurn,
               moveNumber: increase,

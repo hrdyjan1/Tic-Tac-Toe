@@ -1,20 +1,15 @@
-// type player = 'x' | 'o'
+import { Context, ContextRound, ContextRoundLite } from '../types';
 
-// interface Square {
-//     id: number;
-//     player: player;
-// }
-
-export const checkIfAllSamePlayer = ({ values, player }) => values.every(
-  (v) => v.player === player,
+export const checkIfAllSamePlayer = ({ values, player }: ContextRoundLite): boolean => (
+  values.every((v) => v.player === player)
 );
 
-export const checkVerticalWin = ({ values, countToWin, player }) => {
-  for (
-    let pointer = 0;
-    countToWin + pointer <= values.length;
-    pointer += countToWin
-  ) {
+export const checkVerticalWin = ({
+  values,
+  countToWin,
+  player,
+}: ContextRound): boolean => {
+  for (let pointer = 0; countToWin + pointer <= values.length; pointer += countToWin) {
     const valuesToCheck = values.filter(
       (_, index) => pointer <= index && index < countToWin + pointer,
     );
@@ -31,11 +26,13 @@ export const checkVerticalWin = ({ values, countToWin, player }) => {
   return false;
 };
 
-export const checkHorizontalWin = ({ values, countToWin, player }) => {
+export const checkHorizontalWin = ({
+  values,
+  countToWin,
+  playerOnTurn: player,
+}: Context): boolean => {
   for (let pointer = 0; pointer < countToWin; pointer += 1) {
-    const valuesToCheck = values.filter(
-      (_, index) => (index + pointer) % countToWin === 0,
-    );
+    const valuesToCheck = values.filter((_, index) => (index + pointer) % countToWin === 0);
 
     const isThereWinner = checkIfAllSamePlayer({
       values: valuesToCheck,
@@ -49,10 +46,12 @@ export const checkHorizontalWin = ({ values, countToWin, player }) => {
   return false;
 };
 
-export const checkDiagonalWin = ({ values, countToWin, player }) => {
-  const toBottomRightValues = values.filter(
-    (_, index) => index % (countToWin + 1) === 0,
-  );
+export const checkDiagonalWin = ({
+  values,
+  countToWin,
+  playerOnTurn: player,
+}: Context): boolean => {
+  const toBottomRightValues = values.filter((_, index) => index % (countToWin + 1) === 0);
 
   const toBottomLeftValues = values.filter((_, index) => {
     const row = Math.floor(index / countToWin) + 1;
