@@ -1,8 +1,8 @@
 import { Machine, assign } from 'xstate';
 
-import { GAME_OFF, GAME_ON } from './states';
+import { GAME_OFF, GAME_OVER, GAME_ON } from './states';
 import {
-  RESTART, GAME_OVER, GAME_START, MOVE,
+  RESTART, GAME_QUIT, GAME_START, MOVE,
 } from './events';
 import {
   preventCorrectMoves,
@@ -48,13 +48,13 @@ const ticTacToeMachine = Machine<Context, Event>(
           '': [
             // Check WIN 🏆
             {
-              target: GAME_OFF,
+              target: GAME_OVER,
               cond: checkWin, // Check only player of previous move
               actions: assign<Context>({ result: getWinnerResult }),
             },
             // Check DRAW ❓
             {
-              target: GAME_OFF,
+              target: GAME_OVER,
               cond: checkDraw,
               actions: assign<Context>({ result: getDrawResult }),
             },
@@ -69,17 +69,24 @@ const ticTacToeMachine = Machine<Context, Event>(
           [RESTART]: {
             actions: assign({ ...initialContext, values: fillDefaultValues }),
           },
-          [GAME_OVER]: {
+          [GAME_QUIT]: {
+            target: GAME_OFF,
+          },
+        },
+      },
+      [GAME_OVER]: {
+        on: {
+          [RESTART]: {
+            target: GAME_ON,
+            actions: assign(initialContext),
+          },
+          [GAME_QUIT]: {
             target: GAME_OFF,
           },
         },
       },
       [GAME_OFF]: {
         on: {
-          [RESTART]: {
-            target: GAME_ON,
-            actions: assign(initialContext),
-          },
           [GAME_START]: {
             target: GAME_ON,
             actions: assign(initialContext),
