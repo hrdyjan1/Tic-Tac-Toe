@@ -11,6 +11,11 @@ export const addMove = (
 ): Array<Square> => enhanceItemArray(values, move.id, { player: playerOnTurn });
 
 // Getters
+
+
+
+
+
 export const getWinnerResult = (context: Context): Result => ({
   status: STATUS_WIN_LOSE,
   winner: toggleTurn(context),

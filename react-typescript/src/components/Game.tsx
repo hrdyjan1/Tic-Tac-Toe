@@ -4,10 +4,11 @@ import Board from './Board';
 
 import ticTacToeMachine from '../xstate/machine';
 import { MOVE, RESTART } from '../xstate/events';
+import { Move } from '../xstate/types';
 
 function Game() {
   const [state, send] = useMachine(ticTacToeMachine);
-  const onSquareClick = (move) => send(MOVE, { move });
+  const onSquareClick = (move: Move) => send(MOVE, { move });
   const restart = () => send(RESTART);
   const isResult = state.context.result.status !== '';
 

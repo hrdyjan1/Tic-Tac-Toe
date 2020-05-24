@@ -21,6 +21,7 @@ module.exports = {
     'import/extensions': 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", '.tsx'] }]
   },
   settings: {
     'import/resolver': {

@@ -7,8 +7,14 @@ import {
   shrinkArray,
   doNothing,
 } from '../helpers/functions';
+import { Move, Square as SquareType } from '../xstate/types';
 
-function Board({ values, onSquareClick }) {
+interface Board {
+    values: SquareType[];
+    onSquareClick: (move: Move) => void
+}
+
+function Board({ values, onSquareClick }: Board) {
   const { length } = values;
 
   // Empty array or not array
@@ -25,11 +31,11 @@ function Board({ values, onSquareClick }) {
   }
 
   // E.g. From [1,2,3,4] => [[1,2], [3,4]]
-  const shrinkedArray = shrinkArray(values, squareRoot);
+  const shrinedArray = shrinkArray(values, squareRoot);
 
   return (
     <div className="board">
-      {shrinkedArray.map((arrayOfSquares) => (
+      {shrinedArray.map((arrayOfSquares) => (
         <div className="board-row">
           {arrayOfSquares.map((square) => {
             const isTaken = square.player !== '';
