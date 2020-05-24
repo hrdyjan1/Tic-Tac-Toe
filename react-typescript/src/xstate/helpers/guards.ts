@@ -1,12 +1,13 @@
 import { ContextRound, ContextRoundLite } from '../types';
 
-export const checkIfAllSamePlayer = ({ values, player }: ContextRoundLite): boolean =>
-  values.every((v) => v.player === player);
+export const checkIfAllSamePlayer = ({ values, player }: ContextRoundLite): boolean => (
+  values.every((v) => v.player === player)
+);
 
 export const checkVerticalWin = ({ values, countToWin, player }: ContextRound): boolean => {
   for (let pointer = 0; countToWin + pointer <= values.length; pointer += countToWin) {
     const valuesToCheck = values.filter(
-      (_, index) => pointer <= index && index < countToWin + pointer
+      (_, index) => pointer <= index && index < countToWin + pointer,
     );
 
     const isThereWinner = checkIfAllSamePlayer({
@@ -45,12 +46,11 @@ export const checkDiagonalWin = ({ values, countToWin, player }: ContextRound): 
     return (index + row) % countToWin === 0;
   });
 
-  const isThereWinner =
-    checkIfAllSamePlayer({
-      values: toBottomRightValues,
-      player,
-    }) ||
-    checkIfAllSamePlayer({
+  const isThereWinner = checkIfAllSamePlayer({
+    values: toBottomRightValues,
+    player,
+  })
+    || checkIfAllSamePlayer({
       values: toBottomLeftValues,
       player,
     });
